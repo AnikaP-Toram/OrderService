@@ -4,6 +4,8 @@ from ..models import Order, db
 from ..services import product_service, payment_service
 import uuid
 from datetime import datetime
+from flask import jsonify
+from sqlalchemy.sql import text
 
 @bp.route('/orders', methods=['POST'])
 def create_order():
@@ -70,24 +72,6 @@ def get_user_orders(user_id):
         } for order in orders
     ]
     return jsonify(result), 200
-
-# @bp.route('/orders/product/<int:product_id>', methods=['GET'])
-# def get_product_orders(product_id):
-#     orders = db.session.query(Order).filter(Order.product_ids.contains([2])).all()
-#     result = [
-#         {
-#             "id": order.id,
-#             "product_ids": order.product_ids,
-#             "product_quantities": order.product_quantities,
-#             "user_id": order.user_id,
-#             "total_price": order.total_price,
-#             "transaction_id": order.transaction_id
-#         } for order in orders
-#     ]
-#     return jsonify(result), 200
-
-from flask import jsonify
-from sqlalchemy.sql import text
 
 @bp.route('/orders/product/<int:product_id>', methods=['GET'])
 def get_orders_by_product(product_id):
